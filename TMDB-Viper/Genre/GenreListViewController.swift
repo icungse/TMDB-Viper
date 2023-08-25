@@ -22,6 +22,7 @@ class GenreListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        title = "Genre"
         Task {
             await presenter?.updateView()
         }
@@ -37,8 +38,6 @@ extension GenreListViewController {
         tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 16).isActive = true
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -16).isActive = true
-        tableView.delegate = self
-        tableView.dataSource = self
     }
 }
 
@@ -64,5 +63,14 @@ extension GenreListViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "GenreTableViewCell", for: indexPath)
         (cell as? GenreTableViewCell)?.genreText = genres?.genres[indexPath.row].name
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let genre = genres?.genres[indexPath.row].name else {
+            return
+        }
+        
+        let controller = MovieListRouter.createModule(with: genre)
+        navigationController?.pushViewController(controller, animated: true)
     }
 }

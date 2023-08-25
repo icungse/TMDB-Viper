@@ -9,9 +9,6 @@ import Foundation
 import UIKit
 
 class GenreListRouter: PresenterToRouterGenreListProtocol {
-    init() {
-        
-    }
     static func createModule() -> UIViewController {
         let viewController = GenreListViewController()
         let presenter: ViewToPresenterGenreListProtocol & InteractorToPresenterGenreListProtocol = GenreListPresenter()
