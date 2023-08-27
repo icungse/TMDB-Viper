@@ -17,7 +17,7 @@ struct Movie: Codable {
     let id: Int
     let imdbID, originalLanguage, originalTitle, overview: String
     let popularity: Double
-    let posterPath: String
+    let posterPath: String?
     let productionCompanies: [ProductionCompany]?
     let productionCountries: [ProductionCountry]
     let releaseDate: String
@@ -51,7 +51,7 @@ struct Movie: Codable {
 
 struct BelongsToCollection: Codable {
     let id: Int
-    let name, posterPath: String
+    let name, posterPath: String?
     let backdropPath: String?
 
     enum CodingKeys: String, CodingKey {

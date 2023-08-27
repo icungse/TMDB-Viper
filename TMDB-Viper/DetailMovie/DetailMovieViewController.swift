@@ -14,6 +14,7 @@ class DetailMovieViewController: BaseViewController {
     private lazy var scrollView = UIScrollView()
     private lazy var contentView = UIView()
     private lazy var detailStackView = UIStackView()
+    private lazy var reviewStackView = UIStackView()
     private lazy var trailerView = UIView()
     private lazy var reviewView = UIView()
     private lazy var ratingView = RatingComponent()
@@ -76,7 +77,7 @@ extension DetailMovieViewController {
         setupTrailerView()
         setupTrailerTitleLabel()
         setupWebView()
-        setupReviewView()
+        setupReviewStackView()
         setupReviewTitleLabel()
         setupCollectionView()
     }
@@ -89,7 +90,6 @@ extension DetailMovieViewController {
         headerImageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
         headerImageView.translatesAutoresizingMaskIntoConstraints = false
         headerImageView.contentMode = .scaleAspectFill
-        headerImageView.clipsToBounds = true
     }
     
     private func setupScrollView() {
@@ -193,13 +193,14 @@ extension DetailMovieViewController {
         webView.allowsBackForwardNavigationGestures = true
     }
     
-    private func setupReviewView() {
-        contentView.addSubview(reviewView)
-        reviewView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        reviewView.topAnchor.constraint(equalTo: trailerView.bottomAnchor, constant: 16).isActive = true
-        reviewView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        reviewView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 8).isActive = true
-        reviewView.translatesAutoresizingMaskIntoConstraints = false
+    private func setupReviewStackView() {
+        contentView.addSubview(reviewStackView)
+        reviewStackView.addArrangedSubview(reviewView)
+        reviewStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        reviewStackView.topAnchor.constraint(equalTo: trailerView.bottomAnchor, constant: 16).isActive = true
+        reviewStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        reviewStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 8).isActive = true
+        reviewStackView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func setupReviewTitleLabel() {
@@ -282,8 +283,10 @@ extension DetailMovieViewController: PresenterToViewDetailMovieProtocol {
     }
     
     private func bindView(movie: Movie) {
-        headerImageView.loadImageWithUrl(movie.backdropPath)
-        posterImageView.loadImageWithUrl(movie.posterPath)
+        headerImageView.loadImageWithUrl(movie.backdropPath, scale: .scaleAspectFill)
+        if let path = movie.posterPath {
+            posterImageView.loadImageWithUrl(path)
+        }
         titleLabel.text = movie.title
         releaseLabel.text = movie.releaseDate
         var genreString = ""
@@ -332,6 +335,7 @@ extension DetailMovieViewController: PresenterToViewDetailMovieProtocol {
                 return
             }
             
+            self.reviewView.isHidden = review.totalResults == 0
             self.collectionView.reloadData()
             self.reviewView.layoutSubviews()
         }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GenreListViewController: UIViewController {
+class GenreListViewController: BaseViewController {
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.dataSource = self
@@ -23,6 +23,7 @@ class GenreListViewController: UIViewController {
         super.viewDidLoad()
 
         title = "Genre"
+        isLoading = true
         Task {
             await presenter?.updateView()
         }
@@ -49,6 +50,8 @@ extension GenreListViewController: PresenterToViewGenreListProtocol {
             guard let self = self else {
                 return
             }
+            
+            self.isLoading = false
             self.tableView.reloadData()
         }
     }

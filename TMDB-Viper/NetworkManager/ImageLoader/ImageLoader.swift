@@ -15,7 +15,7 @@ class ImageLoader: UIImageView {
 
     let activityIndicator = UIActivityIndicatorView()
 
-    func loadImageWithUrl(_ path: String) {
+    func loadImageWithUrl(_ path: String, scale: UIView.ContentMode = .scaleAspectFit) {
         guard let url = URL(string: ApiConstant.imageHost + path) else {
             return
         }
@@ -30,7 +30,8 @@ class ImageLoader: UIImageView {
 
         imageURL = url
 
-        image = nil
+        image = UIImage(systemName: "photo") //UIImage(named: "photo.artframe")
+        contentMode = scale
         activityIndicator.startAnimating()
 
         // retrieves image if already available in cache
