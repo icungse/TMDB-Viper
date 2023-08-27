@@ -74,6 +74,12 @@ extension MovieListViewController: UITableViewDelegate, UITableViewDataSource {
             loadMovies()
         }
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let id = movies[indexPath.row].id
+        let controller = DetailMovieRouter.createModule(with: id)
+        navigationController?.pushViewController(controller, animated: true)
+    }
 }
 
 extension MovieListViewController: PresenterToViewMovieListProtocol {
