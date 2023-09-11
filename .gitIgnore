@@ -1,5 +1,6 @@
-*.xcodeproj
-!*.xcodeproj/project.pbxproj
-!*/xcodeproj/xcshareddata/
-!*/xcworkspace/contents.xcworkspace
-**/xcshareddata/WorkspaceSettings.xcsettings
+.DS_Store
+*.xcodeproj/project.xcworkspace/xcshareddata
+*.xcodeproj/xcshareddata
+*.xcworkspacedata
+*.xcuserstate
+*/xcuserdata
